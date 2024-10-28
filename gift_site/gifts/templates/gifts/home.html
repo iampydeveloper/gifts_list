@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Gift List</title>
+    {% load static %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("{% static 'images/background.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        .input-field, .link-input {
+            margin-bottom: 15px;
+        }
+        .input-field input, .link-input input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .publish-button {
+            padding: 12px;
+            width: 100%;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .publish-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Create Your Gift List</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="link-input">
+                <label for="link_name">https://site.com/</label>
+                <input type="text" id="link_name" name="link_name" placeholder="your-link-name" required>
+            </div>
+
+            <div id="gift-container">
+                <div class="input-field">
+                    <label for="gift_text">Gift Text</label>
+                    <input type="text" name="gift_text" placeholder="Enter gift description">
+                </div>
+                <div class="input-field">
+                    <label for="gift_link">Gift Link</label>
+                    <input type="url" name="gift_link" placeholder="Enter gift URL">
+                </div>
+                <div class="input-field">
+                    <label for="gift_image">Gift Image</label>
+                    <input type="file" name="gift_image" accept="image/*">
+                </div>
+            </div>
+
+            <button type="submit" class="publish-button">PUBLISH</button>
+        </form>
+    </div>
+</body>
+</html>

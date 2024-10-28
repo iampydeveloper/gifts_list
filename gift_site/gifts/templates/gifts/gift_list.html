@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ gift.link_name }}'s Gift List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        .gift-image {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ gift.link_name }}'s Gift List</h1>
+        <p>{{ gift.gift_text }}</p>
+        <a href="{{ gift.gift_link }}" target="_blank">{{ gift.gift_link }}</a>
+        {% if gift.gift_image %}
+            <img src="{{ gift.gift_image.url }}" alt="Gift Image" class="gift-image">
+        {% endif %}
+    </div>
+</body>
+</html>

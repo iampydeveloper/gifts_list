@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ gift.link_name }}'s Gift List</title>
+    {% load static %}
+    <link rel="icon" href="{% static 'images/favicon.png' %}" type="image/x-icon">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url("{% static 'images/background.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            scroll-behavior: smooth;         }
+        .container {
+            background: rgba(255, 255, 255, 0);
+            padding: 20px;
+            border-radius: 12px;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            overflow-y: auto;
+            max-height: 90vh;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;
+        }
+
+        .container::-webkit-scrollbar {
+            display: none;
+        }
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+        }
+        p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 16px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .gift-image {
+            max-width: 100%;
+            height: auto;
+            margin-top: 15px;
+            border-radius: 10px;
+            box-shadow: 0 7px 19px rgba(0, 0, 0, 1);
+        }
+        .gift-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: rgba(255, 101, 0, 0.4);
+            text-align: center;
+        }
+        .gift-item h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #FFFFFF;
+        }
+        .gift-item p {
+            font-size: 14px;
+            color: #FFFFFF;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+            }
+            h1 {
+                font-size: 20px;
+            }
+            p, a {
+                font-size: 14px;
+            }
+            .gift-item h2 {
+                font-size: 20px;
+                color: #FFFFFF;
+            }
+            .gift-text {
+                font-size: 30px;
+                color: #FFFFFF;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="gift-text" style="color: #FFFFFF; text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);">Gifts for me</h2>
+        {% for item in gift.items.all %}
+            <div class="gift-item" style="background: rgba(41, 49, 51, 0.4); text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);">
+                <h2 style="text-align: center">{{ item.name }}</h2>
+                <a href="{{ item.link }}" target="_blank" style="text-align: center">{{ item.link }}</a>
+                {% if item.image %}
+                    <img src="{{ item.image.url }}" alt="Gift Item Image" class="gift-image">
+                {% endif %}
+            </div>
+        {% endfor %}
+        
+    </div>
+
+    <script>
+        window.onload = function() {
+            window.scrollTo(0, 0);
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Gift List</title>
+    {% load static %}
+    <link rel="icon" href="{% static 'images/favicon.png' %}" type="image/x-icon">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url("{% static 'images/background.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: auto;
+            scroll-behavior: smooth; 
+        }
+        .container {
+            background: rgba(255, 255, 255, 0);
+            padding: 20px;
+            border-radius: 12px;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            overflow-y: auto;
+            max-height: 90vh; 
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;
+        }
+
+        .container::-webkit-scrollbar {
+            display: none;
+        }
+        h1 {
+            margin-bottom: 20px;
+            color: #FFFFFF;
+            font-size: 24px;
+            text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
+        }
+
+        .input-field, .link-input {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .link-input {
+            margin-bottom: 1px;
+            text-align: center;
+            padding: 15px;
+        }
+        .link-input input {
+            width: 80%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            transition: border 0.1s, box-shadow 0.3s;
+            font-size: 16px;
+        }
+        .link-input input:focus {
+            border: 1px solid #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            outline: none;
+        }
+        .input-field input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            transition: border 0.3s, box-shadow 0.3s;
+            font-size: 16px;
+            text-align: center;
+        }
+        .input-field input:focus {
+            border: 1px solid #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            outline: none;
+        }
+        .add-button, .publish-button {
+            padding: 15px;
+            width: 80%;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
+        }
+        .add-button {
+            background-color: #e12d01;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            margin-top: 10px;
+            text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
+        }
+        .add-button:hover {
+            background-color: #fe4701;
+            transform: translateY(-2px);
+        }
+        .publish-button {
+            background-color: #e12d01;
+            color: white;
+        }
+        .publish-button:hover {
+            background-color: #fe4701;
+            transform: translateY(-2px);
+        }
+        .gift-container {
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            text-align: center;
+            background: rgba(41, 49, 51, 0);
+        }
+        .gift-container label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+            color: #ffffff;
+            background: rgba(41, 49, 51, 0);
+            text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
+        }
+        .gift-image-preview {
+            display: none;
+            margin-top: 10px;
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        .file-input-container {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .file-input-container input[type="file"] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .file-input-container {
+            background-color: #e12d01;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .file-input-container:hover {
+            background-color: #e12d01;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+            }
+            .avatar {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+            h1 {
+                font-size: 20px;
+            }
+            .input-field input, .link-input input {
+                font-size: 14px;
+            }
+            .add-button, .publish-button {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <h1>Create Your Gift List</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div id="gift-container">
+                <div class="gift-container" id="gift_1">
+                    <div class="input-field">
+                        <label for="gift_name_1">Name</label>
+                        <input type="text" id="gift_name_1" name="gift_name" placeholder="Enter gift name">
+                    </div>
+                    <div class="input-field">
+                        <label for="gift_link_1">Link</label>
+                        <input type="url" id="gift_link_1" name="gift_link" placeholder="Enter gift URL">
+                    </div>
+                    <div class="input-field">
+                        <div class="file-input-container">
+                            <input type="file" id="gift_image_1" name="gift_image" accept="image/*" onchange="previewImage(event, 1)">
+                            <label for="gift_image_1">CHOOSE IMAGE</label>
+                        </div>
+                        <img id="gift_image_preview_1" class="gift-image-preview" alt="Gift Image Preview">
+                    </div>
+                    <button type="button" class="remove-button" onclick="removeGift(1)" style="display: none;">Remove</button>
+                </div>
+            </div>
+
+            <button type="button" class="add-button" onclick="addGift()">ADD NEW GIFT</button>
+
+            <div class="link-input">
+                <input type="text" id="link_name" name="link_name" placeholder="your-link-name" required>
+            </div>
+
+            <button type="submit" class="publish-button">PUBLISH</button>
+        </form>
+    </div>
+
+    <script>
+        let giftCount = 1;
+
+        function addGift() {
+            giftCount++;
+            const giftContainer = document.createElement('div');
+            giftContainer.className = 'gift-container';
+            giftContainer.id = `gift_${giftCount}`;
+
+            giftContainer.innerHTML = `
+                <div class="input-field">
+                    <label for="gift_name_${giftCount}">Name</label>
+                    <input type="text" id="gift_name_${giftCount}" name="gift_name" placeholder="Enter gift name">
+                </div>
+                <div class="input-field">
+                    <label for="gift_link_${giftCount}">Link</label>
+                    <input type="url" id="gift_link_${giftCount}" name="gift_link" placeholder="Enter gift URL">
+                </div>
+                <div class="input-field">
+                    <label for="gift_image_${giftCount}">Image</label>
+                    <div class="file-input-container">
+                        <input type="file" id="gift_image_${giftCount}" name="gift_image" accept="image/*" onchange="previewImage(event, ${giftCount})">
+                        <label for="gift_image_${giftCount}">Choose Image</label>
+                    </div>
+                    <img id="gift_image_preview_${giftCount}" class="gift-image-preview" alt="Gift Image Preview">
+                </div>
+                <button type="button" class="remove-button" onclick="removeGift(${giftCount})">Remove</button>
+            `;
+
+            document.getElementById('gift-container').appendChild(giftContainer);
+        }
+
+        function removeGift(index) {
+            if (giftCount > 1) {
+                const giftContainer = document.getElementById(`gift_${index}`);
+                giftContainer.remove();
+                giftCount--;
+            }
+        }
+
+        function previewImage(event, index) {
+            const file = event.target.files[0];
+            const preview = document.getElementById(`gift_image_preview_${index}`);
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        window.onload = function() {
+            window.scrollTo(0, 0);
+        };
+    </script>
+</body>
+</html>
